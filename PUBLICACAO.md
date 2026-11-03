@@ -17,7 +17,8 @@ A revisão inclui 17 países, 18 séries, pool principal de 13 pares e pool este
 - As oito combinações de desfecho/pool/especificação foram exercitadas. Os diagnósticos vistos na interface conferem com a análise final.
 - Conferidos os painéis por hora e por ativo com lacunas, o agregado oficial OCDE, a troca de país no painel conjunto e a abertura da nota repo/WACF/LLW/KKM.
 - Nenhum erro de execução registrado no navegador durante esses fluxos. Evidência manual em `data/browser-validation.json`.
-- `scripts/verify_public.py` compara os arquivos HTTP com o checkout: respostas originais e CSV em bytes; outros textos com normalização CRLF/LF. O resultado, horários, hashes e commit de conteúdo testado ficam em `VALIDACAO.json`. Esse script não refaz os testes visuais.
+- A versão pública foi aberta no navegador: 17 países, multivariado padrão e alternância para univariado conferidos, sem erros registrados.
+- 22 arquivos públicos responderam HTTP 200 e conferiram com o checkout. JSONs de análise, snapshot e validação, respostas brutas e CSV foram comparados em bytes. `scripts/verify_public.py` compara os arquivos HTTP com o checkout: respostas originais e CSV em bytes; outros textos com normalização CRLF/LF. O resultado, horários, hashes e commit de conteúdo testado ficam em `VALIDACAO.json`. Esse script não refaz os testes visuais.
 
 ## Limites
 

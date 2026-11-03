@@ -1,126 +1,266 @@
 {
   "url": "https://marciofmar.github.io/turquia-experimento-monetario/",
   "repository": "https://github.com/marciofmar/turquia-experimento-monetario",
-  "date": "2026-11-02",
-  "testedSourceCommit": "8e0e04d",
+  "verifiedAt": "2026-11-03T03:24:50.958244+00:00",
+  "testedSourceCommit": "cdcc531a359a524a8fa5b3a48383afcfa91f672e",
+  "snapshotSha256": "92a81b0121bfb41a63c5beab0968878dbc06de0647fedb9129cc06cf21d98e3e",
+  "analysisSha256": "267a5a516291a00675b1849dabe356a7d1db820cda74a5448e419d4f13d0586b",
+  "dataChecksPassed": 33331,
   "publicFiles": [
     {
       "path": "index.html",
       "status": 200,
-      "bytes": 20008,
-      "sha256": "419dc86635d4722f25b577cfd2a4ac2d81600f136d1849a8a7c28bce0cfd4b51",
-      "matchesLocalText": true,
-      "lineEndingsNormalized": true
+      "bytes": 27059,
+      "sha256": "61b26da89add09fd09f09a408c8e423040b49cfd88c7735c4b0798dd14ee9960",
+      "matchesLocal": true,
+      "comparison": "text normalized LF"
     },
     {
       "path": "style.css",
       "status": 200,
-      "bytes": 10916,
-      "sha256": "2675661fb8cc27619d360d3fd6f78928e64b7abf9f67bdb9a97314d6c0acfbe8",
-      "matchesLocalText": true,
-      "lineEndingsNormalized": true
+      "bytes": 11750,
+      "sha256": "3131f162dde6cdaa1954e3976697d18b42f19c4884eb0afc136065bae893b2b4",
+      "matchesLocal": true,
+      "comparison": "text normalized LF"
     },
     {
       "path": "app.js",
       "status": 200,
-      "bytes": 15547,
-      "sha256": "a9609c068a7ac008484cf2a09b44594d72079dd3aa68973c403dc71f6b64449b",
-      "matchesLocalText": true,
-      "lineEndingsNormalized": true
+      "bytes": 20873,
+      "sha256": "3a1b533ddd065bf0441ea5807b535c91fdecd0a7c8ea3be84d870b0b5f6f6ef6",
+      "matchesLocal": true,
+      "comparison": "text normalized LF"
     },
     {
       "path": "data/data.js",
       "status": 200,
-      "bytes": 171859,
-      "sha256": "b969e374e4568908db4cd3ec02fccd46d5e775326f03b82dbf255cabd1d8dce9",
-      "matchesLocalText": true,
-      "lineEndingsNormalized": true
+      "bytes": 1195363,
+      "sha256": "53165991cd361b530916349ca4d7009a7d7eb4a1e8533c690773952d008e8cc1",
+      "matchesLocal": true,
+      "comparison": "text normalized LF"
     },
     {
       "path": "data/series.csv",
       "status": 200,
-      "bytes": 572494,
-      "sha256": "fcc9ce2f0f4e9d7ca4c617fbd9c97f3af742f99f64dd7dd1aedda6ae0d308809",
-      "matchesLocalText": true,
-      "lineEndingsNormalized": true
+      "bytes": 1820005,
+      "sha256": "310470ff73120cadf1b633adeec6e986fef8f9ccb0361fc50fff26ecb335f360",
+      "matchesLocal": true,
+      "comparison": "bytes"
     },
     {
       "path": "data/analysis.json",
       "status": 200,
-      "bytes": 126095,
-      "sha256": "d6e8c1016b99a63f93aa8edeeed9b9cdf3b1428961bbfa3835ef1d2aefb54926",
-      "matchesLocalText": true,
-      "lineEndingsNormalized": true
+      "bytes": 1684527,
+      "sha256": "267a5a516291a00675b1849dabe356a7d1db820cda74a5448e419d4f13d0586b",
+      "matchesLocal": true,
+      "comparison": "bytes"
     },
     {
       "path": "data/snapshot.json",
       "status": 200,
-      "bytes": 52892,
-      "sha256": "827ffc5b5b5a3632443be3667b7bb3a92668f309de25b7dc7d3287d3b916049a",
-      "matchesLocalText": true,
-      "lineEndingsNormalized": true
+      "bytes": 320697,
+      "sha256": "92a81b0121bfb41a63c5beab0968878dbc06de0647fedb9129cc06cf21d98e3e",
+      "matchesLocal": true,
+      "comparison": "bytes"
     },
     {
-      "path": "vendor/echarts.min.js",
+      "path": "data/validation.json",
       "status": 200,
-      "bytes": 1034102,
-      "sha256": "bf4a223524e40b77c304bec67e1222cf551f14880cf42c69dc046558e11c07b1",
-      "matchesLocalText": true,
-      "lineEndingsNormalized": true
+      "bytes": 568,
+      "sha256": "f0feb38ce0fde729c28674aca8f76b3a427e585c6814c87ff4f54e21aff50e75",
+      "matchesLocal": true,
+      "comparison": "bytes"
     },
     {
-      "path": "vendor/LICENSE.txt",
+      "path": "data/browser-validation.json",
       "status": 200,
-      "bytes": 11990,
-      "sha256": "634293835b43a6dd2094fa39182a3d9a6b9ca43b7fdb9ac354e8037af2a3093a",
-      "matchesLocalText": true,
-      "lineEndingsNormalized": true
+      "bytes": 1425,
+      "sha256": "726bb060de2554985704f412df7ddc69a1f4bb2a4e7b33f7822304572d87fccb",
+      "matchesLocal": true,
+      "comparison": "text normalized LF"
     },
     {
-      "path": "scripts/analyze.py",
+      "path": "data/baseline/analysis-v1.json",
       "status": 200,
-      "bytes": 4325,
-      "sha256": "b4388fc8191eab3cbb59589171cc234264bb073fabf992c31d4501c1c96e772a",
-      "matchesLocalText": true,
-      "lineEndingsNormalized": true
-    },
-    {
-      "path": "scripts/validate.py",
-      "status": 200,
-      "bytes": 2597,
-      "sha256": "34f3130956a56622472a4be387284557f8173702a8b2df119c99a25c78da2401",
-      "matchesLocalText": true,
-      "lineEndingsNormalized": true
+      "bytes": 129809,
+      "sha256": "f102cef27af648b6cc2c6049e6f5ae6380b2ed39f98df3de469698045e824e2a",
+      "matchesLocal": true,
+      "comparison": "bytes"
     },
     {
       "path": "README.md",
       "status": 200,
-      "bytes": 6050,
-      "sha256": "f8262259f4dfe5666f94880ed073f45df7a69fae68dd800fb10fe44fd0f101a9",
-      "matchesLocalText": true,
-      "lineEndingsNormalized": true
+      "bytes": 14457,
+      "sha256": "130473e924483efac01a2e6ceb1a3407dfe4d25f77198f012913cf199a8d7ec3",
+      "matchesLocal": true,
+      "comparison": "text normalized LF"
+    },
+    {
+      "path": "RELATORIO_TECNICO.md",
+      "status": 200,
+      "bytes": 6297,
+      "sha256": "0ac405fd2892e05cf6674291a82d552b7c4523e3f72365fd210a7a6bce81c201",
+      "matchesLocal": true,
+      "comparison": "text normalized LF"
+    },
+    {
+      "path": "scripts/analyze.py",
+      "status": 200,
+      "bytes": 8984,
+      "sha256": "e40448719fc12e53cce767084b082fd740c36905f8355fa704d0cfa7060ee959",
+      "matchesLocal": true,
+      "comparison": "text normalized LF"
+    },
+    {
+      "path": "scripts/fetch_data.py",
+      "status": 200,
+      "bytes": 9370,
+      "sha256": "e144844add1679fe7158b93f647223a6176df190baf343cb4984804de3f1fb1f",
+      "matchesLocal": true,
+      "comparison": "text normalized LF"
+    },
+    {
+      "path": "scripts/config.py",
+      "status": 200,
+      "bytes": 2099,
+      "sha256": "84f16f61863b1e894ecf37d3c29f975f8d5ae38195271b84c8b6b5890f952812",
+      "matchesLocal": true,
+      "comparison": "text normalized LF"
+    },
+    {
+      "path": "scripts/validate.py",
+      "status": 200,
+      "bytes": 10940,
+      "sha256": "1aec09ef045c195a7c2e661180bd09ac617f05177f27300e59fdd9aca6b395a7",
+      "matchesLocal": true,
+      "comparison": "text normalized LF"
+    },
+    {
+      "path": "scripts/report.py",
+      "status": 200,
+      "bytes": 6755,
+      "sha256": "81c47bf65d1183cbf71e56891d4c006f0fa1c854436b91a31e53f890a1ce3d91",
+      "matchesLocal": true,
+      "comparison": "text normalized LF"
+    },
+    {
+      "path": "requirements.txt",
+      "status": 200,
+      "bytes": 27,
+      "sha256": "983665a6331eda07ab1f4b23ef92d66f4b024c27b360ee0e7420511ef3b28c64",
+      "matchesLocal": true,
+      "comparison": "text normalized LF"
+    },
+    {
+      "path": "data/raw-oecd-hourly.csv",
+      "status": 200,
+      "bytes": 14954,
+      "sha256": "1ea3b37cf0c2e3668d7ace73f19e5e81b738e37121ce373149f984e2beb981c0",
+      "matchesLocal": true,
+      "comparison": "bytes"
+    },
+    {
+      "path": "data/raw-oecd-capital-attempt-0.csv",
+      "status": 200,
+      "bytes": 137294,
+      "sha256": "d83a5501713400dd4c9575a2b08b903abbc32a157954a5cb809564639ad84279",
+      "matchesLocal": true,
+      "comparison": "bytes"
+    },
+    {
+      "path": "data/raw-wdi-income_ppp.json",
+      "status": 200,
+      "bytes": 66545,
+      "sha256": "8859a8fd803108e662fae09b9c255cc4e202962ddb82c2ef78596a23ac5b4f34",
+      "matchesLocal": true,
+      "comparison": "bytes"
+    },
+    {
+      "path": "data/raw-bis.zip",
+      "status": 200,
+      "bytes": 4140668,
+      "sha256": "261879b2f305f43e8b8d22150e9f9ebcb9408f17939f1387a0febac20cc11f04",
+      "matchesLocal": true,
+      "comparison": "bytes"
     }
   ],
-  "dataChecksPassed": 3547,
-  "browser": {
-    "desktop": "1280 × 900",
-    "mobile": "390 × 844",
-    "horizontalOverflow": false,
-    "consoleErrors": 0,
-    "flows": [
-      "PIB em colunas",
-      "Câmbio 2017=100",
-      "Seleção Nigéria / juros ausentes",
-      "Troca de grupos sintéticos",
-      "Diagnóstico Europa",
-      "PIB sintético / desvios",
-      "P&D / cobertura"
+  "browserEvidence": {
+    "edition": "multivariada-2026-11-03",
+    "scope": "Inspeção e interações no navegador; registro manual, não executado pelo verificador HTTP",
+    "testedUrl": "http://127.0.0.1:8788/",
+    "desktopViewport": {
+      "width": 1280,
+      "height": 900
+    },
+    "mobileViewportRequested": {
+      "width": 390,
+      "height": 844
+    },
+    "mobileContentWidth": 375,
+    "mobilePageScrollWidth": 375,
+    "chartsRenderedAsSvg": [
+      "mainChart",
+      "structureA",
+      "structureB",
+      "compositionChart",
+      "synthChart"
+    ],
+    "consoleErrors": [],
+    "eightModelCombinations": {
+      "inflation-principal-multivariate": [
+        "6,09",
+        "10,75",
+        "9,41×"
+      ],
+      "inflation-principal-univariate": [
+        "6",
+        "10,59",
+        "9,57×"
+      ],
+      "inflation-extended-multivariate": [
+        "4,48",
+        "9,35",
+        "10,95×"
+      ],
+      "inflation-extended-univariate": [
+        "3,26",
+        "8,63",
+        "14×"
+      ],
+      "gdp-principal-multivariate": [
+        "3,46",
+        "4,65",
+        "0,19×"
+      ],
+      "gdp-principal-univariate": [
+        "3,18",
+        "4,84",
+        "0,22×"
+      ],
+      "gdp-extended-multivariate": [
+        "3,45",
+        "4,66",
+        "0,32×"
+      ],
+      "gdp-extended-univariate": [
+        "2,1",
+        "3,57",
+        "0,41×"
+      ]
+    },
+    "otherFlows": [
+      "Produtividade por hora: agregado oficial OCDE e Turquia até 2021, Brasil ausente",
+      "Máquinas e equipamentos: Polônia com série; Turquia e Brasil vazios",
+      "Painel FBCF/manufatura/exportações com troca de país",
+      "Nota monetária aparece junto a juros e explica WACF/LLW/KKM",
+      "Tabelas de W, V, equilíbrio, leave-one-out e placebos renderizadas"
     ]
   },
   "limits": [
-    "Controle sintético exploratório, não identificação causal",
-    "Juros até setembro de 2026; 2026 anual ausente",
-    "Sem índice de diversificação exportadora",
-    "Sol médio não confirmado"
+    "V fixo, sem identificação causal",
+    "RMSPE pré pior que edição anterior",
+    "Nigéria excluída do multivariado por FBCF e abertura ausentes",
+    "Componentes de FBCF da Turquia ausentes",
+    "PIB/hora turco termina em 2021"
   ]
 }
