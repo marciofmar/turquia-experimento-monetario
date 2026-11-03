@@ -134,5 +134,5 @@ for name,displayed in browser['eightModelCombinations'].items():
  actual=[r['preRmspe'],r['holdout']['validationRmspe'],r['ratio']]
  for shown,value in zip(displayed,actual):check(abs(float(shown.removesuffix('×').replace(',','.'))-value)<=.0051,'Diagnóstico visto no navegador diverge da análise final')
 record=dict(checksPassed=checks,passed=True,snapshotSha256=A['metadata']['snapshotSha256'],analysisSha256=hashlib.sha256((ROOT/'data/analysis.json').read_bytes()).hexdigest(),validatedAt=datetime.datetime.now(datetime.timezone.utc).isoformat(),properties=['Source checksums and rows','CSV and browser parity','W simplex and V weights','KKT and loss','Predictor balance','Temporal holdout without leakage','Unit invariance','Known convex solutions','Explicit missing-data exclusions'])
-(ROOT/'data/validation.json').write_text(json.dumps(record,ensure_ascii=False,indent=2),encoding='utf-8')
+(ROOT/'data/validation.json').write_text(json.dumps(record,ensure_ascii=False,indent=2),encoding='utf-8',newline='\n')
 print(f'{checks} verificações passaram; dados, cálculo, propriedades e vazamento temporal conferidos.',flush=True)

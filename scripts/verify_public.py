@@ -20,6 +20,6 @@ def main():
  browser=json.loads((ROOT/'data/browser-validation.json').read_text(encoding='utf-8'))
  commit=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
  record=dict(url=BASE,repository='https://github.com/marciofmar/turquia-experimento-monetario',verifiedAt=datetime.datetime.now(datetime.timezone.utc).isoformat(),testedSourceCommit=commit,snapshotSha256=validation['snapshotSha256'],analysisSha256=validation['analysisSha256'],dataChecksPassed=validation['checksPassed'],publicFiles=results,browserEvidence=browser,limits=['V fixo, sem identificação causal','RMSPE pré pior que edição anterior','Nigéria excluída do multivariado por FBCF e abertura ausentes','Componentes de FBCF da Turquia ausentes','PIB/hora turco termina em 2021'])
- (ROOT/'VALIDACAO.json').write_text(json.dumps(record,ensure_ascii=False,indent=2),encoding='utf-8')
+ (ROOT/'VALIDACAO.json').write_text(json.dumps(record,ensure_ascii=False,indent=2),encoding='utf-8',newline='\n')
  print(len(results),'arquivos públicos conferidos; respostas brutas e CSV idênticos em bytes; demais textos normalizados em LF.',flush=True)
 if __name__=='__main__':main()

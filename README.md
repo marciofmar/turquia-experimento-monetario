@@ -106,7 +106,7 @@ Em 2022, o TCMB descreve financiamento de mercado aberto via repo de uma semana;
 
 ## Arquivos e fontes
 
-`data/snapshot.json` contém todas as séries e proveniência, inclusive juros, OCDE, flags e componentes; `analysis.json`, somente cálculo/diagnósticos/comparação; `series.csv`, valores de todas as séries e áreas, com unidade, URL, consulta e status; `data.js`, snapshot mais análise para uso offline. Ausências são null no JSON e vazias no CSV, nunca zero. Há null mensal explícito nos juros sem observação. SHA-256 dos bytes originais é verificado antes da publicação; `.gitattributes` evita alterar respostas brutas por conversão de quebras de linha.
+`data/snapshot.json` contém todas as séries e proveniência, inclusive juros, OCDE, flags e componentes; `analysis.json`, somente cálculo/diagnósticos/comparação; `series.csv`, valores de todas as séries e áreas, com unidade, URL, consulta e status; `data.js`, snapshot mais análise para uso offline. Ausências são null no JSON e vazias no CSV, nunca zero. Há null mensal explícito nos juros sem observação. JSONs de análise/validação são gravados com LF explícito, independente do sistema operacional, para os hashes coincidirem na publicação. `.gitattributes` preserva os bytes das respostas brutas, CSV e arquivos de referência.
 
 - WDI: https://api.worldbank.org/v2/; códigos e consultas em `config.py` e no snapshot.
 - BIS: https://data.bis.org/topics/CBPOL; definições em https://www.bis.org/statistics/cbpol/cbpol_doc.pdf.

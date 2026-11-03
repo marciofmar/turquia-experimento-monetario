@@ -107,9 +107,9 @@ def main():
   comparison[key]=dict(beforeStored={k:baseline[key]['all'][k] for k in ['preRmspe','weights','gap']},beforePoolFreshData=old_fresh,principalUnivariate={k:uni[k] for k in ['preRmspe','weights','gap']},principalMultivariate={k:multi[k] for k in ['preRmspe','weights','gap']})
  metadata=dict(schemaVersion=2,dataRetrievedAt=D['retrievedAt'],snapshotSha256=digest(ROOT/'data/snapshot.json'),codeSha256={name:digest(ROOT/'scripts'/name) for name in ['config.py','analyze.py','fetch_data.py']},baselineCommit='d88ee5e',baselineAnalysisSha256=digest(ROOT/'data/baseline/analysis-v1.json'),numpy=np.__version__,scipy=scipy.__version__,trainingYears=[2010,2020],holdoutTrainingYears=[2010,2017],holdoutEvaluationYears=[2018,2020],postYears=[2022,2023],covariates=COVARIATES,vRule='Fixo ex ante: histórico do desfecho 0.5, covariáveis 0.5. Divisão uniforme dentro de cada bloco. Não estimado pelo pós nem pelo holdout.',standardization='Multivariado: média e desvio-padrão amostral entre alvo e doadores elegíveis, por preditor agregado exclusivamente no pré. Univariado: escala numérica comum, sem mudar o objetivo histórico.',missingPolicy='Exigir todas as observações pré-tratamento dos preditores; excluir doador incompleto com motivo. Não selecionar doadores pela disponibilidade pós. Previsão pós ausente se faltar desfecho de doador com peso positivo.')
  result=dict(schemaVersion=2,metadata=metadata,pools=POOLS,outcomes=outcomes,comparison=comparison)
- (ROOT/'data/analysis.json').write_text(json.dumps(result,ensure_ascii=False,indent=2,allow_nan=False),encoding='utf-8')
+ (ROOT/'data/analysis.json').write_text(json.dumps(result,ensure_ascii=False,indent=2,allow_nan=False),encoding='utf-8',newline='\n')
  D['synthetic']=result
- (ROOT/'data/data.js').write_text('window.REPORT_DATA='+json.dumps(D,ensure_ascii=False,allow_nan=False)+';',encoding='utf-8')
+ (ROOT/'data/data.js').write_text('window.REPORT_DATA='+json.dumps(D,ensure_ascii=False,allow_nan=False)+';',encoding='utf-8',newline='\n')
  with (ROOT/'data/series.csv').open('w',newline='',encoding='utf-8-sig') as f:
   writer=csv.writer(f);writer.writerow(['country','indicator','period','value','unit','source_url','retrieved_at','observation_status'])
   for key,s in D['series'].items():
