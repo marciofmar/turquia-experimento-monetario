@@ -1,0 +1,18 @@
+{
+  "checksPassed": 33331,
+  "passed": true,
+  "snapshotSha256": "92a81b0121bfb41a63c5beab0968878dbc06de0647fedb9129cc06cf21d98e3e",
+  "analysisSha256": "474379ab9cfa00d6cf792b026e68f202072b7e8f5b4a6a6e5a1e0e14009e1a12",
+  "validatedAt": "2026-11-03T03:18:37.796638+00:00",
+  "properties": [
+    "Source checksums and rows",
+    "CSV and browser parity",
+    "W simplex and V weights",
+    "KKT and loss",
+    "Predictor balance",
+    "Temporal holdout without leakage",
+    "Unit invariance",
+    "Known convex solutions",
+    "Explicit missing-data exclusions"
+  ]
+}

@@ -1,0 +1,11 @@
+data/raw-* -text
+data/baseline/*.json -text whitespace=cr-at-eol
+*.py text eol=lf
+*.js text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+*.md text eol=lf
+data/series.csv -text
+data/*.csv whitespace=cr-at-eol
+data/analysis.json -text whitespace=cr-at-eol
+data/validation.json -text whitespace=cr-at-eol

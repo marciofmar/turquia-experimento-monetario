@@ -1,23 +1,26 @@
-# Publicação e validação
+# Publicação: edição multivariada
 
 Site: https://marciofmar.github.io/turquia-experimento-monetario/
 
-Repositório público: https://github.com/marciofmar/turquia-experimento-monetario
+Repositório: https://github.com/marciofmar/turquia-experimento-monetario
 
-GitHub Pages configurado para a raiz de `main`, HTTPS obrigatório. Edição dos dados: 02/11/2026. Dados anuais até 2025 conforme indicador; juros mensais até setembro de 2026. Não há atualização automática.
+GitHub Pages serve a raiz de `main`, com HTTPS obrigatório. Coleta concluída em 03/11/2026; a data/hora de cada fonte está em `data/snapshot.json`.
+
+A revisão inclui 17 países, 18 séries, pool principal de 13 pares e pool estendido de sensibilidade. O multivariado é o padrão; o univariado permanece selecionável. V é fixo e declarado, com 50% para histórico e 50% para quatro covariáveis.
 
 ## Evidências
 
-- 3.547 verificações de integridade dos dados, correspondência com respostas WDI, SHA-256 dos arquivos originais, restrições dos pesos, previsões, RMSPE e convergência de otimização (KKT).
-- JavaScript validado por `node --check`.
-- 12 arquivos públicos com HTTP 200 e texto equivalente ao local, normalizando apenas CRLF/LF. Detalhes e hashes em `VALIDACAO.json`.
-- Inspeção visual em 1280×900 e 390×844. Sem transbordamento horizontal da página; os quatro gráficos foram renderizados em SVG.
-- Fluxos testados: PIB em colunas; câmbio com base 2017=100; inclusão da Nigéria e aviso de juros ausentes; conta corrente; filtros de anos com correção de intervalo invertido; P&D e cobertura; troca de resultado/grupo do controle sintético; exibição de desvios; tabela de valores com lacunas de 2026; download de CSV concluído.
-- Descrições acessíveis dos gráficos em português; sem erros registrados no console durante os fluxos testados.
-- Revisão visual corrigiu a posição da unidade nos gráficos, acrescentou anotações das mudanças monetárias e atualizou a referência do script para evitar cache antigo.
+- Pipeline executado do zero: coleta, cálculo, validação e geração do relatório técnico.
+- 33.331 verificações passaram. Abrangem fontes originais, hashes, CSV, dados do navegador, W/V, equilíbrio, KKT, previsões, RMSPE, invariância de unidade, soluções convexas conhecidas e ausência de vazamento temporal.
+- A coleta mantém respostas em memória até concluir, preservando a edição anterior se uma fonte falhar. Ausências continuam nulas; não houve interpolação ou imputação.
+- Inspeção visual local em 1280×900 e 390×844, com cinco gráficos SVG e sem transbordamento horizontal da página.
+- As oito combinações de desfecho/pool/especificação foram exercitadas. Os diagnósticos vistos na interface conferem com a análise final.
+- Conferidos os painéis por hora e por ativo com lacunas, o agregado oficial OCDE, a troca de país no painel conjunto e a abertura da nota repo/WACF/LLW/KKM.
+- Nenhum erro de execução registrado no navegador durante esses fluxos. Evidência manual em `data/browser-validation.json`.
+- `scripts/verify_public.py` compara os arquivos HTTP com o checkout: respostas originais e CSV em bytes; outros textos com normalização CRLF/LF. O resultado, horários, hashes e commit de conteúdo testado ficam em `VALIDACAO.json`. Esse script não refaz os testes visuais.
 
-## Limites da entrega
+## Limites
 
-O controle sintético é uma reconstrução nova e exploratória; o histórico não continha arquivos suficientes para uma reprodução exata. Ajustes prévios e validação são imperfeitos, especialmente nos controles europeus. Não há inferência causal, p-valor ou intervalo de confiança causal. Não se construiu um índice de diversificação exportadora sem série desagregada validada. A escolha de Sol médio não foi confirmada.
+O novo padrão tem RMSPE pré pior que a edição anterior; não se apresenta o refinamento como melhoria de ajuste ou identificação causal. V não é estimado por busca aninhada. A Nigéria permanece no estendido univariado e é excluída do multivariado por ausência de FBCF e abertura no pré. A resposta de FBCF por ativo traz componentes de pares, mas só o total para a Turquia. O PIB por hora turco termina em 2021. Nenhuma dessas lacunas foi preenchida.
 
-O arquivo de validação identifica o commit de conteúdo testado; commits posteriores podem acrescentar esta documentação sem modificar o relatório ou os cálculos.
+A comparação entre versões e a interpretação estrutural estão em `RELATORIO_TECNICO.md`; a formulação exata e os passos de reprodução, em `README.md`. A referência da edição anterior foi preservada em `data/baseline/` e no histórico Git. Commits posteriores podem registrar a verificação pública sem alterar os cálculos ou a interface testada.

@@ -1,0 +1,28 @@
+{
+  "edition": "multivariada-2026-11-03",
+  "scope": "Inspeção e interações no navegador; registro manual, não executado pelo verificador HTTP",
+  "testedUrl": "http://127.0.0.1:8788/",
+  "desktopViewport": {"width": 1280, "height": 900},
+  "mobileViewportRequested": {"width": 390, "height": 844},
+  "mobileContentWidth": 375,
+  "mobilePageScrollWidth": 375,
+  "chartsRenderedAsSvg": ["mainChart", "structureA", "structureB", "compositionChart", "synthChart"],
+  "consoleErrors": [],
+  "eightModelCombinations": {
+    "inflation-principal-multivariate": ["6,09", "10,75", "9,41×"],
+    "inflation-principal-univariate": ["6", "10,59", "9,57×"],
+    "inflation-extended-multivariate": ["4,48", "9,35", "10,95×"],
+    "inflation-extended-univariate": ["3,26", "8,63", "14×"],
+    "gdp-principal-multivariate": ["3,46", "4,65", "0,19×"],
+    "gdp-principal-univariate": ["3,18", "4,84", "0,22×"],
+    "gdp-extended-multivariate": ["3,45", "4,66", "0,32×"],
+    "gdp-extended-univariate": ["2,1", "3,57", "0,41×"]
+  },
+  "otherFlows": [
+    "Produtividade por hora: agregado oficial OCDE e Turquia até 2021, Brasil ausente",
+    "Máquinas e equipamentos: Polônia com série; Turquia e Brasil vazios",
+    "Painel FBCF/manufatura/exportações com troca de país",
+    "Nota monetária aparece junto a juros e explica WACF/LLW/KKM",
+    "Tabelas de W, V, equilíbrio, leave-one-out e placebos renderizadas"
+  ]
+}

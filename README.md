@@ -1,57 +1,121 @@
-# Turquia: crescer, a que custo?
+# Turquia: crescimento e estrutura
 
-Relatório econômico interativo, em português brasileiro. HTML, CSS e JavaScript estáticos, sem build, conta ou servidor de aplicação. Série visual principal de 2017–2026; controle sintético treinado com histórico de 2010–2020.
+Relatório estático em português, com 17 países, dados WDI/BIS/OCDE e controles sintéticos exploratórios. O modelo padrão é multivariado. A referência univariada e a edição anterior permanecem auditáveis. Site: https://marciofmar.github.io/turquia-experimento-monetario/.
 
-## Abrir
+## Reprodução do início ao fim
 
-Abra `index.html` diretamente ou execute `python -m http.server 8787` nesta pasta. A biblioteca Apache ECharts 5.6.0 está incluída em `vendor/`; dados locais em `data/data.js`. O site não precisa de chamadas externas para desenhar os gráficos. Os links de fontes precisam de conexão.
-
-## Reprodução
-
-Python 3, somente biblioteca padrão:
+Python 3.14 foi utilizado nesta edição. As versões testadas estão em `requirements.txt`. Os scripts de extração usam a biblioteca padrão; a análise usa NumPy e SciPy.
 
 ```sh
-python scripts/fetch_data.py
-python scripts/analyze.py
-python scripts/validate.py
+python -m venv .venv
+# Windows:
+.venv\Scripts\python -m pip install -r requirements.txt
+.venv\Scripts\python scripts/fetch_data.py
+.venv\Scripts\python scripts/analyze.py
+.venv\Scripts\python scripts/validate.py
+.venv\Scripts\python scripts/report.py
+node --check app.js
+# Servir a pasta atual, ou abrir index.html diretamente:
+python -m http.server 8787
 ```
 
-O primeiro comando consulta fontes vivas e muda a edição: a data `retrieved` deve ser atualizada no script e os textos de cobertura revisados. Os dados atuais foram consultados em 02/11/2026. Não há agendamento de atualização.
+Em Linux/macOS, substitua `.venv\Scripts\python` por `.venv/bin/python`. Não há build de front-end. O ECharts 5.6.0 e os dados do navegador são locais. Conexão é necessária para uma nova coleta e para abrir links de fontes, não para desenhar gráficos.
 
-`fetch_data.py`: WDI, dez indicadores para 12 países, 2010–2026; BIS WS_CBPOL, mensal. Respostas originais, SHA-256 e URLs estão em `data/`. `analyze.py` gera séries para o navegador, CSV completo e diagnósticos. Ausência permanece `null` no JSON e vazia no CSV, nunca zero.
+1. `scripts/config.py` fixa países, códigos e pools antes de estimar.
+2. `fetch_data.py` baixa novamente WDI, BIS e OCDE. Mantém respostas em memória até terminar a coleta, preservando a edição anterior se uma fonte falhar. Guarda bytes originais, URLs, SHA-256, horário de consulta e flags. Ao concluir, substitui os arquivos brutos e grava atomicamente `snapshot.json`. Recusas HTTP são registradas; uma falha total de acesso não vira uma série econômica vazia nem uma nova edição incompleta.
+3. `analyze.py` lê esse snapshot completo, estima os dois modelos nos dois pools e todos os diagnósticos. Gera `analysis.json`, `data.js` e `series.csv` a partir dos mesmos valores.
+4. `validate.py` confere proveniência, dados, contas, equilíbrio, convergência, ausência de vazamento temporal e propriedades do estimador. Gera `data/validation.json` sem alterar os dados.
+5. `report.py` gera `RELATORIO_TECNICO.md` a partir dos resultados e da validação.
 
-## Controle sintético exploratório
+Uma nova consulta pode revisar valores históricos, cobertura e data de atualização. A data não é constante no código: o snapshot registra início e fechamento da coleta, além dos horários por fonte. Não há atualização agendada. Os períodos de análise continuam fixos até 2025 para resultados anuais e até o mês corrente para a coleta de juros; isso não cria dados futuros.
 
-Reconstrução nova: a conversa de origem não forneceu arquivos, pesos ou código para reprodução exata. Ajuste univariado separado para inflação média e crescimento real do PIB, pesos não negativos com soma 1. Objetivo: minimizar soma de quadrados dos desvios de 2010–2020. Gradiente projetado no simplex, inicialização uniforme, máximo 25.000 passos, tolerância de 1e-10 na mudança dos pesos. A divisão por escala numérica comum mantém o objetivo original. Não há padronização individual, intercepto ou extrapolação.
+## Matriz de preditores, V e W
 
-Três conjuntos: todos os 11 doadores; Europa (Polônia, Hungria, Tchéquia, Romênia, Sérvia); demais emergentes (Brasil, Chile, África do Sul, Nigéria, Egito, Gana). Os 12 países são os identificados no histórico recuperado. Validação temporal: ajuste 2010–2017 e avaliação 2018–2020. Sensibilidade: exclusão individual de doadores com peso >1%. Placebos espaciais: cada doador vira alvo, sem a Turquia nos controles. RMSPE pós usa 2022 e 2023; 2023 mistura regimes e terremotos. 2021 não entra no ajuste nem no RMSPE pós.
+Para cada desfecho (inflação média ou crescimento real do PIB), há J doadores e um alvo. A matriz bruta `R` tem uma coluna para o alvo e uma para cada doador. No treino principal 2010–2020, suas nove linhas são:
 
-**Limites:** poucos anos e muitos doadores; pré-ajuste imperfeito e possibilidade de sobreajuste; seleção de países por histórico da conversa; controles sob políticas próprias; choques globais heterogêneos. Não há atribuição aleatória, p-valor, intervalo causal ou garantia de identificação. A razão RMSPE pós/pré é diagnóstico, não prova. A inflação turca prévia é mal aproximada pelos controles europeus. A implementação não substitui um desenho de pesquisa com controles de composição econômica e dados mensais.
+| Bloco | Preditor | Janela | Peso diagonal de V |
+|---|---|---|---:|
+| Desfecho | Média do desfecho | 2010–2014 | 0,10 |
+| Desfecho | Média do desfecho | 2015–2017 | 0,10 |
+| Desfecho | Valor do desfecho | 2018 | 0,10 |
+| Desfecho | Valor do desfecho | 2019 | 0,10 |
+| Desfecho | Valor do desfecho | 2020 | 0,10 |
+| Estrutura | PIB per capita PPC constante (NY.GDP.PCAP.PP.KD) | média 2010–2020 | 0,125 |
+| Estrutura | FBCF/PIB (NE.GDI.FTOT.ZS) | média 2010–2020 | 0,125 |
+| Estrutura | Abertura comercial/PIB (NE.TRD.GNFS.ZS) | média 2010–2020 | 0,125 |
+| Estrutura | Manufatura/PIB (NV.IND.MANF.ZS) | média 2010–2020 | 0,125 |
 
-## Tratamentos
+Em cada linha k, sejam `mu_k` e `s_k` a média e o desvio-padrão amostral **entre alvo e doadores elegíveis** dos preditores pré-tratamento agregados. A padronização é:
 
-- PIB: crescimento real anual, mostrado em colunas.
-- Inflação: média anual, não dezembro/dezembro.
-- Câmbio: média oficial anual, moeda local/US$; índices com base fixa 2017=100 permitem comparar variações proporcionais, sem inferir competitividade real.
-- Juros: fim do mês, banco central/BIS, instrumentos nacionais distintos. Não há juros BIS para Nigéria, Egito e Gana neste conjunto. Repo de 2017 não resume todos os instrumentos de aperto turcos.
-- Índice para séries de nível: 100×X/valor2017. Variação: 100×(X/Xanterior−1). Somente câmbio, produtividade e renda permitem indexação; a interface macro expõe câmbio.
-- Sem imputação, interpolação, suavização, winsorização ou mistura com projeções. Linhas conectam pontos observados para apresentação, sem estimar meses intermediários. Os pontos anuais ficam em julho no eixo apenas para facilitar leitura da faixa de datas; são agregados do ano inteiro.
-- Produtividade: PIB por empregado em PPC constante de 2021, não por hora/PTF. Emprego pode ser estimado pela OIT. P&D, alta tecnologia, indústria de transformação e investimento são proxies parciais, não um índice composto de desenvolvimento.
-- Não há indicador de diversificação exportadora propriamente dita; participação de alta tecnologia não o substitui. Dados ambientais e distributivos não foram incorporados.
+```text
+mu_k = (1/(J+1)) × sum_i R_ki
+s_k² = (1/J) × sum_i (R_ki - mu_k)²
+X_ki = (R_ki - mu_k) / s_k
+V = diag(v_1, ..., v_K), v_k >= 0, sum(v_k) = 1
 
-2025 vem de respostas WDI armazenadas, substituindo os placeholders anteriores, e não de cópia dos números da conversa. WDI pode revisar dados e incluir estimativas; cobertura não significa definitivo. 2026 anual está ausente; juros até setembro de 2026. Não se reproduz a alegação anterior de juros correntes em 36% sem série oficial confirmando-a.
+W* = argmin_W (X_1 - X_0 W)' V (X_1 - X_0 W)
+sujeito a w_j >= 0 e sum_j w_j = 1
 
-## Fontes e créditos
+Y_sintético,t = sum_j w_j Y_jt
+desvio_t = Y_Turquia,t - Y_sintético,t
+RMSPE(T) = sqrt((1/|T|) × sum_t em T desvio_t²)
+```
 
-- Banco Mundial WDI: https://api.worldbank.org/v2/ e códigos/URLs por indicador em `snapshot.json`; licenciamento em https://datacatalog.worldbank.org/public-licenses.
-- BIS: https://data.bis.org/topics/CBPOL e https://www.bis.org/statistics/cbpol/cbpol_doc.pdf; proveniência dos bancos centrais em `data.js`, campo `metadata`.
-- OCDE: https://doi.org/10.1787/d01c660f-en.
-- FMI: https://www.elibrary.imf.org/view/journals/002/2026/043/article-A001-en.xml, referência analítica, não preenchimento de séries.
-- Banco da Inglaterra e Banco do Canadá: transmissão monetária, links no relatório. Horizontes estruturais são exemplos didáticos, não médias estimadas.
-- Apache ECharts 5.6.0, Apache License 2.0; copyright preservado no arquivo distribuído e licença em `vendor/LICENSE.txt`.
+`X_1` é a coluna do alvo e `X_0`, a matriz dos doadores. O desvio-padrão é transversal de preditores construídos no pré, não volatilidade temporal de séries mensais. Centro e escala são refeitos em cada ajuste, inclusive leave-one-out e placebo. Se uma linha tiver desvio-padrão zero, seu peso é retirado e V renormalizado, com registro no equilíbrio; essa regra não foi necessária nos modelos principais desta edição.
 
-Produzido com assistência do Codex. A configuração Sol médio não foi confirmada nem alterada nesta sessão. Textos e cálculos são novos; referências não implicam endosso das instituições.
+**V é fixo, não estimado:** 50% ao histórico do desfecho e 50% às características estruturais, dividido uniformemente dentro dos blocos. Essa escolha evita que o número de linhas de um bloco determine seu peso e não usa o resultado posterior. Ela não reproduz a busca aninhada de V de algumas implementações de Synth. É uma escolha normativa, não uma estimativa de relevância econômica; outros V podem alterar pesos e conclusões. W contém os pesos dos países, enquanto V contém os pesos dos preditores. A interface mostra ambos e o desvio padronizado por preditor.
 
-## Publicação
+O objetivo é convexo em W com V fixo. SLSQP, gradiente analítico, inicialização uniforme, `ftol=1e-12`, `maxiter=2000`. A solução precisa satisfazer as restrições e condições KKT com resíduo máximo de 2e-5 na escala do objetivo. Pesos inferiores a 1e-12 são tratados como zero numérico e o vetor é renormalizado; não se trata de imputação de dados. Perda, condição/rank da matriz ponderada, iterações e resíduo KKT ficam no JSON. Com muitos países e poucos preditores pode haver W não único; a inicialização fixa permite reproduzir a solução apresentada. Não se deve interpretar um peso individual como importância causal de um país.
 
-Site estático compatível com GitHub Pages (raiz do ramo `main`) ou Vercel sem framework. Não contém segredos ou dados pessoais. Os arquivos brutos permitem auditoria e aumentam o tamanho do repositório, sem serem necessários para desenhar os gráficos. `PUBLICACAO.md` registra o destino e a verificação quando concluídos.
+### Univariado auditável
+
+Usa uma linha para cada valor anual do desfecho em 2010–2020, V proporcional à identidade e uma escala numérica comum a todas as linhas/países. Minimiza a mesma soma de quadrados anual da edição anterior. Essa especificação não adiciona características estruturais. Seu RMSPE pré deve ser menor ou igual ao do multivariado com o mesmo conjunto elegível: o multivariado otimiza outro critério e pode sacrificar o ajuste da trajetória.
+
+### Donor pools e integridade
+
+Principal: México, Polônia, Brasil, África do Sul, Malásia, Tailândia, Romênia, Hungria, Colômbia, Chile, Índia, Tchéquia e Sérvia (13 candidatos). São comparadores produtivos e comerciais, sem alegação de identidade estrutural ou classificação oficial uniforme de emergentes. Commodities, renda, instituições e inserção europeia ainda diferem; os preditores tornam parte dessas diferenças visível, sem removê-las por completo.
+
+Estendido: os mesmos 13 mais Nigéria, Egito e Gana, exclusivamente para sensibilidade. **Nigéria não possui FBCF nem abertura comercial na WDI em 2010–2020.** Fica fora do multivariado (15 elegíveis) e dentro do univariado (16). Não é substituída por um país inventado, não recebe média de outro país e não se remove uma covariável de todo o modelo para mantê-la. Sua exclusão e os anos ausentes são explícitos em `excludedDonors` e na interface. Comparar esses dois ajustes estendidos altera também a elegibilidade.
+
+Uma observação pré-tratamento ausente em qualquer preditor necessário exclui o doador daquele ajuste. Médias exigem todos os anos da janela; não se usam médias parciais. **Nenhuma seleção de doador depende de valores após o treino.** Se faltar o desfecho posterior de um doador com peso positivo, a previsão desse ano fica nula; uma janela de RMSPE incompleta também fica nula, em vez de mudar silenciosamente os anos avaliados.
+
+### Diagnósticos refeitos
+
+- Treino principal 2010–2020; 2021 não entra no treino nem na razão pós/pré. Pós: 2022 e 2023. Em 2023 há terremotos e reversão monetária; 2024–2025 são acompanhamento de outro regime.
+- Validação temporal: novo treino 2010–2017 e teste 2018–2020. O multivariado usa apenas duas médias do desfecho (2010–2014 e 2015–2017), cada uma com V=0,25; as quatro covariáveis têm médias até 2017 e V=0,125. Médias, escalas e elegibilidade não consultam 2018 em diante. É validação fora da amostra, não uma intervenção real em 2018.
+- Leave-one-out: retirar cada país com W>1%, refazer elegibilidade, escalas e W na mesma especificação.
+- Placebos espaciais: cada candidato elegível vira alvo; os outros candidatos são doadores, sem Turquia. Mesma especificação e mesmas janelas. Casos não estimáveis são registrados; ajustes ruins não são descartados para favorecer a Turquia. Razão RMSPE pós/pré: 2022–2023 / 2010–2020. Não há p-valor, atribuição aleatória ou intervalo causal.
+
+`data/baseline/analysis-v1.json` e `snapshot-v1.json` preservam a edição anterior (commit `d88ee5e`). A comparação distingue: resultado antigo armazenado; reestimação do pool antigo com dados novos; novo pool univariado; novo pool multivariado. Isso separa revisão de dados, seleção do pool e especificação. Os pesos entre duas especificações só isolam a mudança metodológica quando a elegibilidade também é igual.
+
+## Estrutura produtiva e limites de cobertura
+
+WDI: FBCF total, manufatura/PIB e exportações de bens e serviços/PIB aparecem juntos para o mesmo país. São razões a preços correntes; mudanças de câmbio, preços relativos e denominador não equivalem a variações de volume. Não identificam retorno do capital, desindustrialização em termos reais ou causalidade monetária.
+
+OCDE `DSD_NAMAIN10@DF_TABLE1_EXPENDITURE_GFCF_ASSET,1.0`: setor S1, contraparte S1, P51G, preços correntes V, moeda nacional XDC, transformação N, atividade total e tabela T0102. Os ativos são N11MG (máquinas/equipamentos **e sistemas de armas**), N111G (habitação) e N112G (outras edificações/estruturas). Calcula-se `100 × componente / N11G`, somente com numerador e denominador observados do mesmo país, ano, moeda e escala. Valores originais e flags dos dois termos ficam em `components`; não se calcula residual para preencher outro ativo. Os componentes mostrados não esgotam a FBCF.
+
+A resposta consultada fornece componentes para pares, mas **somente o total N11G para a Turquia**. As parcelas turcas ficam vazias. A cobertura efetiva e as tentativas de consulta ficam no snapshot. Algumas consultas iniciais foram recusadas, mas a coleta completa acessou o conjunto; a conclusão de falta de componentes se baseia na resposta obtida, não no erro HTTP. A fonte não foi substituída por uma decomposição inferida do PIB.
+
+OCDE `DSD_PDB@DF_PDB,2.0`: PIB por hora, GDPHRS, LR, USD_PPP_H, N, atividade total, base 2020 verificada. A série turca termina em 2021; 2022–2025 são nulos. O agregado oficial OCDE é acrescentado como referência, sem calcular uma média simples dos pares. O PIB por trabalhador WDI usa PPC de 2021. Não dividimos níveis com bases/fontes diferentes para inferir horas. PIB/hora continua dependendo de capital, composição e utilização; não é PTF. Não se construiu série de PTF sem uma fonte reprodutível confirmada.
+
+## Juros oficiais, WACF e mecanismos de transmissão
+
+O BIS compila taxas de política de fim de mês a partir dos bancos centrais, com mudanças de instrumentos registradas. Para a Turquia, o repo de uma semana não representa todo o aperto de 2017–2018 via Late Liquidity Window. WACF é custo efetivo ponderado por taxas e volumes de financiamento do TCMB, não outro nome para repo. Nenhuma curva WACF foi estimada a partir da taxa oficial.
+
+Em 2022, o TCMB descreve financiamento de mercado aberto via repo de uma semana; o descolamento relevante também envolvia crédito e títulos, sob exigências de reservas, manutenção de títulos e direcionamento de empréstimos. A liraização e os depósitos KKM afetavam incentivos, risco cambial e liquidez. A nota junto ao gráfico distingue esses canais e cita TCMB 2017, 2022, 2023 e o Artigo IV do FMI de 2022 publicado em 2023. Não se atribui todo o episódio a uma taxa observada isolada.
+
+## Arquivos e fontes
+
+`data/snapshot.json` contém todas as séries e proveniência, inclusive juros, OCDE, flags e componentes; `analysis.json`, somente cálculo/diagnósticos/comparação; `series.csv`, valores de todas as séries e áreas, com unidade, URL, consulta e status; `data.js`, snapshot mais análise para uso offline. Ausências são null no JSON e vazias no CSV, nunca zero. Há null mensal explícito nos juros sem observação. SHA-256 dos bytes originais é verificado antes da publicação; `.gitattributes` evita alterar respostas brutas por conversão de quebras de linha.
+
+- WDI: https://api.worldbank.org/v2/; códigos e consultas em `config.py` e no snapshot.
+- BIS: https://data.bis.org/topics/CBPOL; definições em https://www.bis.org/statistics/cbpol/cbpol_doc.pdf.
+- OCDE: https://www.oecd.org/en/data/indicators/gdp-per-hour-worked.html e URLs SDMX completas por série; contexto em https://doi.org/10.1787/d01c660f-en.
+- TCMB: https://www3.tcmb.gov.tr/yillikrapor/2017/en/m-2-1.php, https://www3.tcmb.gov.tr/yillikrapor/2022/en/m-2-2.html e https://www3.tcmb.gov.tr/yillikrapor/2023/en/m-2-2/.
+- FMI: https://www.elibrary.imf.org/view/journals/002/2023/303/article-A001-en.xml, referência de interpretação, sem preencher lacunas de dados.
+- Abadie, Diamond e Hainmueller (2010): https://economics.mit.edu/sites/default/files/publications/Synthetic%20Control%20Methods.pdf.
+- SLSQP: https://docs.scipy.org/doc/scipy/reference/optimize.minimize-slsqp.html.
+
+Sem imputação, interpolação, dessazonalização, winsorização ou combinação de observações com projeções. Linhas conectam observações para leitura e não estimam os intervalos. Inflação é média anual; câmbio é média oficial; PIB é crescimento real anual em colunas. Índice: 100×X/X2017; variação anual: 100×(X/Xanterior−1), apenas nas séries de nível apropriadas. A disponibilidade oficial não implica dado definitivo; flags provisórias e revisões são preservadas.
+
+O relatório não fornece identificação causal, índice de diversificação exportadora, medida ambiental ou distributiva abrangente. Apache ECharts 5.6.0, licença Apache 2.0 em `vendor/LICENSE.txt`. Produzido com assistência do Codex, sem confirmação de troca da configuração do modelo. `RELATORIO_TECNICO.md` apresenta a revisão e `PUBLICACAO.md`, o registro de publicação.
