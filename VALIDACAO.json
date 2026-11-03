@@ -1,0 +1,126 @@
+{
+  "url": "https://marciofmar.github.io/turquia-experimento-monetario/",
+  "repository": "https://github.com/marciofmar/turquia-experimento-monetario",
+  "date": "2026-11-02",
+  "testedSourceCommit": "8e0e04d",
+  "publicFiles": [
+    {
+      "path": "index.html",
+      "status": 200,
+      "bytes": 20008,
+      "sha256": "419dc86635d4722f25b577cfd2a4ac2d81600f136d1849a8a7c28bce0cfd4b51",
+      "matchesLocalText": true,
+      "lineEndingsNormalized": true
+    },
+    {
+      "path": "style.css",
+      "status": 200,
+      "bytes": 10916,
+      "sha256": "2675661fb8cc27619d360d3fd6f78928e64b7abf9f67bdb9a97314d6c0acfbe8",
+      "matchesLocalText": true,
+      "lineEndingsNormalized": true
+    },
+    {
+      "path": "app.js",
+      "status": 200,
+      "bytes": 15547,
+      "sha256": "a9609c068a7ac008484cf2a09b44594d72079dd3aa68973c403dc71f6b64449b",
+      "matchesLocalText": true,
+      "lineEndingsNormalized": true
+    },
+    {
+      "path": "data/data.js",
+      "status": 200,
+      "bytes": 171859,
+      "sha256": "b969e374e4568908db4cd3ec02fccd46d5e775326f03b82dbf255cabd1d8dce9",
+      "matchesLocalText": true,
+      "lineEndingsNormalized": true
+    },
+    {
+      "path": "data/series.csv",
+      "status": 200,
+      "bytes": 572494,
+      "sha256": "fcc9ce2f0f4e9d7ca4c617fbd9c97f3af742f99f64dd7dd1aedda6ae0d308809",
+      "matchesLocalText": true,
+      "lineEndingsNormalized": true
+    },
+    {
+      "path": "data/analysis.json",
+      "status": 200,
+      "bytes": 126095,
+      "sha256": "d6e8c1016b99a63f93aa8edeeed9b9cdf3b1428961bbfa3835ef1d2aefb54926",
+      "matchesLocalText": true,
+      "lineEndingsNormalized": true
+    },
+    {
+      "path": "data/snapshot.json",
+      "status": 200,
+      "bytes": 52892,
+      "sha256": "827ffc5b5b5a3632443be3667b7bb3a92668f309de25b7dc7d3287d3b916049a",
+      "matchesLocalText": true,
+      "lineEndingsNormalized": true
+    },
+    {
+      "path": "vendor/echarts.min.js",
+      "status": 200,
+      "bytes": 1034102,
+      "sha256": "bf4a223524e40b77c304bec67e1222cf551f14880cf42c69dc046558e11c07b1",
+      "matchesLocalText": true,
+      "lineEndingsNormalized": true
+    },
+    {
+      "path": "vendor/LICENSE.txt",
+      "status": 200,
+      "bytes": 11990,
+      "sha256": "634293835b43a6dd2094fa39182a3d9a6b9ca43b7fdb9ac354e8037af2a3093a",
+      "matchesLocalText": true,
+      "lineEndingsNormalized": true
+    },
+    {
+      "path": "scripts/analyze.py",
+      "status": 200,
+      "bytes": 4325,
+      "sha256": "b4388fc8191eab3cbb59589171cc234264bb073fabf992c31d4501c1c96e772a",
+      "matchesLocalText": true,
+      "lineEndingsNormalized": true
+    },
+    {
+      "path": "scripts/validate.py",
+      "status": 200,
+      "bytes": 2597,
+      "sha256": "34f3130956a56622472a4be387284557f8173702a8b2df119c99a25c78da2401",
+      "matchesLocalText": true,
+      "lineEndingsNormalized": true
+    },
+    {
+      "path": "README.md",
+      "status": 200,
+      "bytes": 6050,
+      "sha256": "f8262259f4dfe5666f94880ed073f45df7a69fae68dd800fb10fe44fd0f101a9",
+      "matchesLocalText": true,
+      "lineEndingsNormalized": true
+    }
+  ],
+  "dataChecksPassed": 3547,
+  "browser": {
+    "desktop": "1280 × 900",
+    "mobile": "390 × 844",
+    "horizontalOverflow": false,
+    "consoleErrors": 0,
+    "flows": [
+      "PIB em colunas",
+      "Câmbio 2017=100",
+      "Seleção Nigéria / juros ausentes",
+      "Troca de grupos sintéticos",
+      "Diagnóstico Europa",
+      "PIB sintético / desvios",
+      "P&D / cobertura"
+    ]
+  },
+  "limits": [
+    "Controle sintético exploratório, não identificação causal",
+    "Juros até setembro de 2026; 2026 anual ausente",
+    "Sem índice de diversificação exportadora",
+    "Sol médio não confirmado"
+  ]
+}
