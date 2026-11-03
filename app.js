@@ -1,7 +1,7 @@
 'use strict';
 const D=window.REPORT_DATA, $=id=>document.getElementById(id);
 const colors={TUR:'#dc6537',BRA:'#16877c',POL:'#4267a6',HUN:'#8960a1',CZE:'#a18035',ROU:'#718c52',SRB:'#b75177',ZAF:'#425768',CHL:'#c28762',NGA:'#6e719a',EGY:'#9d9a35',GHA:'#6b939a'};
-const nf=new Intl.NumberFormat('pt-BR',{maximumFractionDigits:2}),fmt=v=>v==null?'—':nf.format(v);
+const nf=new Intl.NumberFormat('pt-BR',{maximumFractionDigits:2}),fmt=v=>v==null||!Number.isFinite(Number(v))?'—':nf.format(v);
 let chosen=['TUR','BRA','POL'], metric='inflation';
 const allCharts=[];
 function chart(id){const c=echarts.init($(id),null,{renderer:'svg'});allCharts.push(c);return c}
@@ -13,12 +13,12 @@ function periodLabel(date){const s=new Date(date);return s.toLocaleDateString('p
 function range(){return [+$('from').value,+$('to').value]}
 function shade(){return {silent:true,itemStyle:{color:'rgba(232,112,62,.10)'},data:[[{xAxis:'2021-09-01'},{xAxis:'2023-06-22'}]]}}
 function options(series,min,max,unit,small=false){return {
- animation:false,color:chosen.map(c=>colors[c]),aria:{enabled:true},textStyle:{fontFamily:'Segoe UI, Arial, sans-serif'},
+ animation:false,color:chosen.map(c=>colors[c]),aria:{enabled:true,label:{enabled:true,description:`Gráfico com ${series.length} séries: ${series.map(s=>s.name).join(', ')}. Unidade: ${unit}. A faixa sombreada marca setembro de 2021 a junho de 2023. Consulte os dados e as notas metodológicas no relatório.`}},textStyle:{fontFamily:'Segoe UI, Arial, sans-serif'},
  tooltip:{trigger:'axis',confine:true,backgroundColor:'#fff',borderColor:'#c9d3d0',textStyle:{fontSize:11},valueFormatter:v=>fmt(v),axisPointer:{type:'line'}},
  legend:{type:'scroll',bottom:small?0:8,left:'center',textStyle:{fontSize:11,color:'#506570'},itemWidth:15,itemHeight:7},
  grid:{left:small?58:64,right:20,top:30,bottom:small?48:86},
  xAxis:{type:'time',min:`${min}-01-01`,max:`${max+1}-01-01`,splitNumber:small?4:8,axisLabel:{formatter:'{yyyy}',color:'#6c7b85',fontSize:10},axisLine:{lineStyle:{color:'#ccd7d2'}},axisTick:{show:false}},
- yAxis:{type:'value',scale:false,name:unit,nameTextStyle:{fontSize:10,color:'#78858d'},axisLabel:{fontSize:10,color:'#6c7b85',formatter:v=>nf.format(v)},splitLine:{lineStyle:{color:'#e8eeea',type:'dashed'}}},
+ yAxis:{type:'value',scale:false,name:unit,nameTextStyle:{fontSize:10,color:'#78858d',align:'left',padding:[0,0,0,-45]},axisLabel:{fontSize:10,color:'#6c7b85',formatter:v=>nf.format(v)},splitLine:{lineStyle:{color:'#e8eeea',type:'dashed'}}},
  dataZoom:small?[]:[{type:'inside',filterMode:'none'},{type:'slider',bottom:37,height:15,borderColor:'transparent',fillerColor:'#e0e8e3',handleStyle:{color:'#728c83'},textStyle:{fontSize:9}}],series};}
 function getSeries(key,c,transform='level'){
  const vals=D.series[key].values[c],base=vals['2017'];
@@ -35,6 +35,7 @@ function drawMain(){
  const [lo,hi]=range(),s=D.series[metric],t=$('transform').value;
  const unit=t==='index'?'2017 = 100':t==='change'?'% a.a.':s.unit;
  const series=chosen.map((c,i)=>({name:D.countries[c],type:metric==='gdp'?'bar':'line',data:getSeries(metric,c,t).filter(([y])=>+y.slice(0,4)>=lo&&+y.slice(0,4)<=hi).map(([y,v])=>[dateOf(y),v]),connectNulls:false,showSymbol:metric!=='rates',symbolSize:5,lineStyle:{width:c==='TUR'?3:2},itemStyle:{color:colors[c]},barMaxWidth:18,...(i===0?{markArea:shade()}:{}),step:metric==='rates'?'end':false}));
+ if(series.length)series[0].markLine={silent:true,symbol:'none',lineStyle:{type:'dotted',color:'#ba856f',width:1},label:{position:'insideEndTop',fontSize:9,color:'#966145',formatter:p=>p.name},data:[{name:'Cortes · set. 2021',xAxis:'2021-09-01'},{name:'Reversão · jun. 2023',xAxis:'2023-06-22'}]};
  main.setOption(options(series,lo,hi,unit),true);
  $('chartTitle').textContent=s.label;$('chartUnit').textContent=unit+' · '+s.source;
  $('chartNote').textContent=(notes[metric]||'')+(t==='index'?' Base fixa 2017, mesmo quando o recorte começa depois.':t==='change'?' Variação calculada contra o ano anterior; não é diferença em pontos percentuais.':'');
